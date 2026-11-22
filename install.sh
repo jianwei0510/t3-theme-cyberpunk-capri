@@ -3,9 +3,9 @@
 set -euo pipefail
 
 REPO="jianwei0510/t3-theme-cyberpunk-capri"
-RELEASE_TAG="assets-v1"
+RELEASE_TAG="assets-v2"
 ANIMATED_ID="cyberpunk-capri-animated"
-LIGHT_ID="cyberpunk-capri-animated-light"
+LEGACY_LIGHT_ID="cyberpunk-capri-animated-light"
 PLAIN_ID="cyberpunk-capri"
 MAX_IMAGE_BYTES=$((16 * 1024 * 1024))
 MAX_THEMES=32
@@ -19,16 +19,14 @@ THEMES_DIR="${T3_THEMES_DIR:-$T3_HOME/userdata/themes}"
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 IMAGE=""
 NO_IMAGE=0
-LIGHT=0
 FORCE=0
 
 usage() {
   cat <<EOF
-Usage: ./install.sh [--light] [--image PATH] [--no-image] [--force]
+Usage: ./install.sh [--image PATH] [--no-image] [--force]
 
-  (default)     Install Cyberpunk Capri Animated with its background
-  --light       Install Cyberpunk Capri Animated Light with its background
-  --image PATH  Use your own JPEG, PNG, or WebP background, up to 16 MB
+  (default)     Install Cyberpunk Capri Animated, with dark and light backgrounds
+  --image PATH  Use one JPEG, PNG, or WebP background for both modes, up to 16 MB
   --no-image    Install Cyberpunk Capri, colors only, dark and light
   --force       Replace an existing install
 
@@ -41,7 +39,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --image) [ $# -ge 2 ] || { usage >&2; exit 2; }; IMAGE="$2"; shift 2 ;;
     --no-image) NO_IMAGE=1; shift ;;
-    --light) LIGHT=1; shift ;;
+    --light) echo "--light is no longer needed. The animated theme now includes both modes."; shift ;;
     --force) FORCE=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *) echo "Unknown option: $1" >&2; usage >&2; exit 2 ;;
@@ -53,23 +51,11 @@ if [ -n "$IMAGE" ] && [ "$NO_IMAGE" -eq 1 ]; then
   exit 2
 fi
 
-if [ "$LIGHT" -eq 1 ] && [ "$NO_IMAGE" -eq 1 ]; then
-  echo "--no-image already includes light colors. Use it without --light." >&2
-  exit 2
-fi
-
 THEME_ID="$ANIMATED_ID"
 THEME_NAME="Cyberpunk Capri Animated"
-MODE_HINT="Set the appearance mode to Dark. This theme only applies in Dark mode."
-if [ "$LIGHT" -eq 1 ]; then
-  THEME_ID="$LIGHT_ID"
-  THEME_NAME="Cyberpunk Capri Animated Light"
-  MODE_HINT="Set the appearance mode to Light. This theme only applies in Light mode."
-fi
 if [ "$NO_IMAGE" -eq 1 ]; then
   THEME_ID="$PLAIN_ID"
   THEME_NAME="Cyberpunk Capri"
-  MODE_HINT="This theme works in both Light and Dark mode."
 fi
 
 SOURCE_JSON="$SOURCE_DIR/theme/$THEME_ID.json"
@@ -147,7 +133,13 @@ fi
 # Stage inside the themes folder so each final move is atomic.
 mkdir -p "$THEMES_DIR"
 STAGED_JSON="$THEMES_DIR/.$THEME_ID.$$.json.tmp"
-cp "$SOURCE_JSON" "$STAGED_JSON"
+if [ -n "$IMAGE" ]; then
+  # The bundled image stacks both modes. A custom image fills the area in either mode.
+  sed -e 's#right top / auto 200%#right center / auto 100%#' \
+    -e 's#right bottom / auto 200%#right center / auto 100%#' "$SOURCE_JSON" > "$STAGED_JSON"
+else
+  cp "$SOURCE_JSON" "$STAGED_JSON"
+fi
 if [ -n "$IMAGE_EXT" ]; then
   STAGED_IMAGE="$THEMES_DIR/.$THEME_ID.$$.image.tmp"
   cp "$WORK/background" "$STAGED_IMAGE"
@@ -168,8 +160,11 @@ THEME_COUNT="$(find "$THEMES_DIR" -maxdepth 1 -type f -name '*.json' | wc -l | t
 if [ "$THEME_COUNT" -gt "$MAX_THEMES" ]; then
   echo "Warning: this folder has $THEME_COUNT themes, and T3 Code only loads $MAX_THEMES. Remove some if this one is not listed." >&2
 fi
+if [ -e "$THEMES_DIR/$LEGACY_LIGHT_ID.json" ]; then
+  echo "Note: the old Cyberpunk Capri Animated Light theme is no longer needed. You can delete its files from $THEMES_DIR."
+fi
 echo
 echo "Next steps:"
 echo "  1. Open Settings > Themes in T3 Code."
-echo "  2. $MODE_HINT"
-echo "  3. Choose $THEME_NAME."
+echo "  2. Choose $THEME_NAME. If it is not listed, reload T3 Code."
+echo "  3. Use Light, Dark, or System mode. The theme follows your choice."
