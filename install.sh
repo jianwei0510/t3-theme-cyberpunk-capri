@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# Installs the Capri Night Sky theme into T3 Code's themes folder.
+# Installs Cyberpunk Capri into T3 Code's themes folder.
 set -euo pipefail
 
-THEME_ID="capri-night-sky"
-REPO="jianwei0510/t3-theme-capri"
+REPO="jianwei0510/t3-theme-cyberpunk-capri"
 RELEASE_TAG="assets-v1"
+ANIMATED_ID="cyberpunk-capri-animated"
+PLAIN_ID="cyberpunk-capri"
 THEMES_DIR="${T3_THEMES_DIR:-$HOME/.t3/userdata/themes}"
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 IMAGE=""
@@ -15,12 +16,11 @@ usage() {
   cat <<EOF
 Usage: ./install.sh [--image PATH] [--no-image] [--force]
 
-  --image PATH  Use a local JPEG, PNG, or WebP background
-  --no-image    Install colors and gradient only
-  --force       Replace an existing $THEME_ID install
+  (default)     Install Cyberpunk Capri Animated with its background
+  --image PATH  Install the animated theme with your own JPEG, PNG, or WebP
+  --no-image    Install Cyberpunk Capri, colors only, dark and light
+  --force       Replace an existing install
 
-Without --image or --no-image, the background is downloaded from the
-$RELEASE_TAG release of $REPO using the GitHub CLI.
 Set T3_THEMES_DIR to install somewhere other than $THEMES_DIR.
 EOF
 }
@@ -40,6 +40,9 @@ if [ -n "$IMAGE" ] && [ "$NO_IMAGE" -eq 1 ]; then
   exit 2
 fi
 
+THEME_ID="$ANIMATED_ID"
+[ "$NO_IMAGE" -eq 1 ] && THEME_ID="$PLAIN_ID"
+
 if [ "$FORCE" -eq 0 ]; then
   for existing in "$THEMES_DIR/$THEME_ID".{json,webp,png,jpg}; do
     if [ -e "$existing" ]; then
@@ -53,6 +56,16 @@ WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 IMAGE_EXT=""
 
+download_background() {
+  local asset="$ANIMATED_ID.webp"
+  if command -v gh >/dev/null && gh release download "$RELEASE_TAG" --repo "$REPO" \
+    --pattern "$asset" --output "$WORK/background" 2>/dev/null; then
+    return 0
+  fi
+  command -v curl >/dev/null &&
+    curl -fsSL "https://github.com/$REPO/releases/download/$RELEASE_TAG/$asset" -o "$WORK/background"
+}
+
 if [ -n "$IMAGE" ]; then
   [ -f "$IMAGE" ] || { echo "Image not found: $IMAGE" >&2; exit 1; }
   IMAGE_EXT="$(printf '%s' "${IMAGE##*.}" | tr '[:upper:]' '[:lower:]')"
@@ -63,13 +76,8 @@ if [ -n "$IMAGE" ]; then
   esac
   cp "$IMAGE" "$WORK/background"
 elif [ "$NO_IMAGE" -eq 0 ]; then
-  command -v gh >/dev/null || {
-    echo "GitHub CLI not found. Install gh, or use --image PATH or --no-image." >&2
-    exit 1
-  }
-  gh release download "$RELEASE_TAG" --repo "$REPO" --pattern "$THEME_ID.webp" \
-    --output "$WORK/background" || {
-    echo "Could not download the background. Check repo access, or use --image PATH or --no-image." >&2
+  download_background || {
+    echo "Could not download the background. Use --image PATH or --no-image." >&2
     exit 1
   }
   IMAGE_EXT="webp"
@@ -83,4 +91,4 @@ fi
 cp "$SOURCE_DIR/theme/$THEME_ID.json" "$THEMES_DIR/$THEME_ID.json"
 
 echo "Installed $THEME_ID to $THEMES_DIR"
-echo "Open T3 Code, then choose Capri Night Sky in Settings > Themes."
+echo "Open T3 Code, then choose it in Settings > Themes."

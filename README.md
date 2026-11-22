@@ -1,53 +1,61 @@
-# Capri Night Sky
+<p align="center">
+  <img src="https://github.com/jianwei0510/t3-theme-cyberpunk-capri/releases/download/assets-v1/cyberpunk-capri-banner.webp" alt="Cyberpunk Capri, an animated dark theme for T3 Code" width="100%">
+</p>
 
-以《Cyberpunk: Edgerunners 2》角色 Capri（Project Capricorn）為靈感的 [T3 Code](https://github.com/pingdotgg/t3code) 深色主題。
+# Cyberpunk Capri
 
-- 粉紅與暗紅為主色，柔和綠色用於 AI 回覆的重點文字、連結與行內程式碼。
-- 角色位於畫面右側，左側與對話欄保持乾淨。
-- 背景約每 11 秒出現兩次短暫的橫向閃爍，其餘時間靜止，適合長時間使用。
+把《Cyberpunk: Edgerunners 2》的 Capri（Project Capricorn）帶進 [T3 Code](https://github.com/pingdotgg/t3code)。粉紅、暗紅與螢光綠的介面，加上一位偶爾訊號失真的角色。
 
-> 這個 repo 目前是私人專案。背景圖衍生自影集畫面，僅供非商業使用，詳見[素材與授權](#素材與授權)。
+- **角色在右，文字在左：** 對話欄保持乾淨，長時間閱讀不受背景干擾。
+- **克制的動態：** 背景約每 11 秒閃爍兩次，其餘時間完全靜止。
+- **完整配色：** 側欄、對話框、程式碼、終端機和搜尋結果都有對應顏色。
 
-## 系統需求
+## 選擇版本
 
-- T3 Code 網頁版或桌面版。行動版不支援主題。
-- 使用安裝腳本時需要 `bash`（macOS、Linux）。Windows 請用[手動安裝](#方法二手動安裝)。
-- 自動下載背景時需要 [GitHub CLI](https://cli.github.com/)，且帳號要有這個 repo 的存取權。
+| 版本 | 內容 | 適合 |
+| --- | --- | --- |
+| **Cyberpunk Capri Animated** | 深色配色與角色動態背景 | 想要完整視覺效果 |
+| **Cyberpunk Capri** | 深色與淺色配色，不含圖片 | 想要簡潔介面，或需要淺色模式 |
 
 ## 安裝
 
-### 方法一：安裝腳本（建議）
+需要 T3 Code 網頁版或桌面版，行動版不支援主題。
+
+### 方法一：安裝腳本（macOS、Linux）
 
 ```bash
-gh auth login
-gh repo clone jianwei0510/t3-theme-capri
-cd t3-theme-capri
+git clone https://github.com/jianwei0510/t3-theme-cyberpunk-capri.git
+cd t3-theme-cyberpunk-capri
 ./install.sh
 ```
 
-安裝完成後，開啟 T3 Code，到 **Settings → Themes** 選擇 **Capri Night Sky**。如果清單裡沒有，請重新載入或重新啟動 T3 Code。
+安裝完成後，到 **Settings → Themes** 選擇 **Cyberpunk Capri Animated**。如果清單裡沒有，請重新載入或重新啟動 T3 Code。
 
 其他選項：
 
 ```bash
+./install.sh --no-image                             # 只安裝配色，含深色與淺色
 ./install.sh --image ~/Pictures/my-background.webp  # 使用自己的背景圖
-./install.sh --no-image                             # 只安裝配色與漸層
 ./install.sh --force                                # 覆蓋已安裝的版本
 T3_THEMES_DIR=/path/to/themes ./install.sh          # 指定主題資料夾
 ```
 
-### 方法二：手動安裝
+### 方法二：手動安裝（含 Windows）
 
-1. 下載 [`theme/capri-night-sky.json`](theme/capri-night-sky.json)。
-2. 到 [Releases](https://github.com/jianwei0510/t3-theme-capri/releases/tag/assets-v1) 下載 `capri-night-sky.webp`。
-3. 把兩個檔案放進 T3 Code 的主題資料夾，主檔名必須都是 `capri-night-sky`：
+1. 下載 [`theme/cyberpunk-capri-animated.json`](theme/cyberpunk-capri-animated.json)。
+2. 到 [Releases](https://github.com/jianwei0510/t3-theme-cyberpunk-capri/releases/tag/assets-v1) 下載 `cyberpunk-capri-animated.webp`。
+3. 把兩個檔案放進 T3 Code 的主題資料夾，主檔名必須相同：
 
    | 系統 | 預設路徑 |
    | --- | --- |
    | macOS、Linux | `~/.t3/userdata/themes/` |
    | Windows | `%USERPROFILE%\.t3\userdata\themes\` |
 
-4. 重新載入 T3 Code，到 **Settings → Themes** 選擇 **Capri Night Sky**。
+4. 重新載入 T3 Code，到 **Settings → Themes** 選擇主題。
+
+### 方法三：只要配色
+
+複製 [`theme/cyberpunk-capri.json`](theme/cyberpunk-capri.json) 的內容，到 **Settings → Themes → Import theme** 貼上。
 
 ## 更新
 
@@ -61,7 +69,8 @@ git pull
 先在 **Settings → Themes** 切換到其他主題，再刪除檔案：
 
 ```bash
-rm -f ~/.t3/userdata/themes/capri-night-sky.{json,webp,png,jpg}
+rm -f ~/.t3/userdata/themes/cyberpunk-capri-animated.{json,webp,png,jpg}
+rm -f ~/.t3/userdata/themes/cyberpunk-capri.json
 ```
 
 ## 疑難排解
@@ -70,13 +79,15 @@ rm -f ~/.t3/userdata/themes/capri-night-sky.{json,webp,png,jpg}
 | --- | --- |
 | 清單裡沒有主題 | 確認檔案在主題資料夾內，然後重新啟動 T3 Code。 |
 | 有配色但沒有背景圖 | 確認圖片與 JSON 主檔名相同，副檔名為 `.webp`、`.png` 或 `.jpg`，大小不超過 16 MB。 |
-| 腳本無法下載背景 | 執行 `gh auth status` 確認登入帳號有 repo 權限，或改用 `--image`。 |
+| 腳本無法下載背景 | 檢查網路，或從 Releases 手動下載後使用 `--image`。 |
 | 顯示 `Already installed` | 確認要覆蓋後，加上 `--force`。 |
 | 角色被對話欄遮住 | 主題以約 1512px 寬的視窗調整，請把視窗拉寬或收合側邊欄。 |
 | 想恢復原狀 | 在 **Settings → Themes** 選擇內建的 T3 Code 主題。 |
 
 ## 素材與授權
 
-- Capri 與《Cyberpunk: Edgerunners 2》的角色、影像權利屬於原權利人。這是非官方同人主題，與原作及 T3 Code 官方無關。
-- 背景圖衍生自影集畫面，**免費分享不等於取得授權**，因此它只放在 Release，不進 git 歷史。
-- 這個 repo 尚未指定開源授權。公開前請先移除 Release 中的背景圖，並重新確認素材的散布方式。
+這是非官方同人主題，與 CD PROJEKT RED、Studio Trigger、《Cyberpunk: Edgerunners》及 T3 Code 官方無關。
+
+- Capri 與作品的角色、名稱和影像權利屬於原權利人。
+- 背景圖與橫幅含有衍生自影集畫面的內容，僅供個人、非商業使用，不包含在任何開源授權內。
+- 權利人如需移除素材，請開 Issue，我會儘速處理。
