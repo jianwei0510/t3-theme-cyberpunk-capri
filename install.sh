@@ -101,4 +101,8 @@ fi
 cp "$SOURCE_DIR/theme/$THEME_ID.json" "$THEMES_DIR/$THEME_ID.json"
 
 echo "Installed $THEME_ID to $THEMES_DIR"
+THEME_COUNT="$(find "$THEMES_DIR" -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')"
+if [ "$THEME_COUNT" -gt 32 ]; then
+  echo "Warning: this folder has $THEME_COUNT themes, and T3 Code only loads 32. Remove some if this one is not listed." >&2
+fi
 echo "Open T3 Code, then choose it in Settings > Themes."

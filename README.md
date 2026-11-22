@@ -80,7 +80,7 @@ rm -f ~/.t3/userdata/themes/cyberpunk-capri.json
 
 | Problem | Fix |
 | --- | --- |
-| The theme is not listed | Check that the files are in the themes folder, then restart T3 Code. |
+| The theme is not listed | Check that the files are in the themes folder, then restart T3 Code. T3 Code loads at most 32 themes from this folder, so remove unused ones if you have more. |
 | Colors work but the background is missing | The image and JSON must share a name. Use `.webp`, `.png`, or `.jpg`, up to 16 MB. |
 | The script cannot download the background | Check your connection, or download it from Releases and use `--image`. |
 | The script says `Already installed` | Add `--force` to replace the existing files. |
