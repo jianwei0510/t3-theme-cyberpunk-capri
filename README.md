@@ -30,7 +30,15 @@ cd t3-theme-cyberpunk-capri
 ./install.sh
 ```
 
-Then open **Settings → Themes** and choose **Cyberpunk Capri Animated**. For the light version, run `./install.sh --light` and choose **Cyberpunk Capri Animated Light**. If it is not listed, reload or restart T3 Code.
+Then finish in T3 Code:
+
+1. Open **Settings → Themes**. If the theme is not listed, reload or restart T3 Code.
+2. Set the appearance mode to **Dark**. This theme only applies in Dark mode.
+3. Choose **Cyberpunk Capri Animated**.
+
+For the light version, run `./install.sh --light`, set the mode to **Light**, and choose **Cyberpunk Capri Animated Light**.
+
+To switch automatically with your system, install both, set the mode to **System**, and choose each theme once.
 
 Other options:
 
@@ -46,14 +54,16 @@ T3_THEMES_DIR=/path/to/themes ./install.sh          # Use a custom themes folder
 
 1. Download [`theme/cyberpunk-capri-animated.json`](theme/cyberpunk-capri-animated.json), or [`theme/cyberpunk-capri-animated-light.json`](theme/cyberpunk-capri-animated-light.json) for light mode.
 2. Download the `.webp` file with the same name from [Releases](https://github.com/jianwei0510/t3-theme-cyberpunk-capri/releases/tag/assets-v1).
-3. Put both files in your T3 Code themes folder. Their names must match except for the extension.
+3. Put both files in your T3 Code themes folder. Their names must match except for the extension. Do not use **Import theme** for animated versions, because it does not include the background image.
 
    | System | Default path |
    | --- | --- |
    | macOS and Linux | `~/.t3/userdata/themes/` |
    | Windows | `%USERPROFILE%\.t3\userdata\themes\` |
 
-4. Reload T3 Code, then choose the theme in **Settings → Themes**.
+   If you set `T3CODE_HOME`, use `$T3CODE_HOME/userdata/themes` instead. For a remote T3 Code server, install on the machine running the server.
+
+4. Reload T3 Code. In **Settings → Themes**, set the mode to **Dark** for the animated theme or **Light** for the animated light theme, then choose it.
 
 ### Option 3: Colors only
 
@@ -81,6 +91,7 @@ rm -f ~/.t3/userdata/themes/cyberpunk-capri.json
 | Problem | Fix |
 | --- | --- |
 | The theme is not listed | Check that the files are in the themes folder, then restart T3 Code. T3 Code loads at most 32 themes from this folder, so remove unused ones if you have more. |
+| Choosing the theme changes nothing | The animated themes each apply to one mode. Use **Dark** for Cyberpunk Capri Animated and **Light** for Cyberpunk Capri Animated Light. |
 | Colors work but the background is missing | The image and JSON must share a name. Use `.webp`, `.png`, or `.jpg`, up to 16 MB. |
 | The script cannot download the background | Check your connection, or download it from Releases and use `--image`. |
 | The script says `Already installed` | Add `--force` to replace the existing files. |
