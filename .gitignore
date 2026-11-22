@@ -1,0 +1,7 @@
+# Background art is distributed through a Release, never through git history.
+*.webp
+*.png
+*.jpg
+*.jpeg
+*.gif
+.DS_Store
