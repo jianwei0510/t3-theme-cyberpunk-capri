@@ -5,19 +5,22 @@ set -euo pipefail
 REPO="jianwei0510/t3-theme-cyberpunk-capri"
 RELEASE_TAG="assets-v1"
 ANIMATED_ID="cyberpunk-capri-animated"
+LIGHT_ID="cyberpunk-capri-animated-light"
 PLAIN_ID="cyberpunk-capri"
 THEMES_DIR="${T3_THEMES_DIR:-$HOME/.t3/userdata/themes}"
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 IMAGE=""
 NO_IMAGE=0
+LIGHT=0
 FORCE=0
 
 usage() {
   cat <<EOF
-Usage: ./install.sh [--image PATH] [--no-image] [--force]
+Usage: ./install.sh [--light] [--image PATH] [--no-image] [--force]
 
   (default)     Install Cyberpunk Capri Animated with its background
-  --image PATH  Install the animated theme with your own JPEG, PNG, or WebP
+  --light       Install Cyberpunk Capri Animated Light with its background
+  --image PATH  Use your own JPEG, PNG, or WebP background
   --no-image    Install Cyberpunk Capri, colors only, dark and light
   --force       Replace an existing install
 
@@ -29,6 +32,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --image) [ $# -ge 2 ] || { usage >&2; exit 2; }; IMAGE="$2"; shift 2 ;;
     --no-image) NO_IMAGE=1; shift ;;
+    --light) LIGHT=1; shift ;;
     --force) FORCE=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *) echo "Unknown option: $1" >&2; usage >&2; exit 2 ;;
@@ -40,7 +44,13 @@ if [ -n "$IMAGE" ] && [ "$NO_IMAGE" -eq 1 ]; then
   exit 2
 fi
 
+if [ "$LIGHT" -eq 1 ] && [ "$NO_IMAGE" -eq 1 ]; then
+  echo "--no-image already includes light colors. Use it without --light." >&2
+  exit 2
+fi
+
 THEME_ID="$ANIMATED_ID"
+[ "$LIGHT" -eq 1 ] && THEME_ID="$LIGHT_ID"
 [ "$NO_IMAGE" -eq 1 ] && THEME_ID="$PLAIN_ID"
 
 if [ "$FORCE" -eq 0 ]; then
@@ -57,7 +67,7 @@ trap 'rm -rf "$WORK"' EXIT
 IMAGE_EXT=""
 
 download_background() {
-  local asset="$ANIMATED_ID.webp"
+  local asset="$THEME_ID.webp"
   if command -v gh >/dev/null && gh release download "$RELEASE_TAG" --repo "$REPO" \
     --pattern "$asset" --output "$WORK/background" 2>/dev/null; then
     return 0

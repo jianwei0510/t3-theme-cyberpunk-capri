@@ -15,6 +15,7 @@ Bring Capri (Project Capricorn) from *Cyberpunk: Edgerunners 2* into [T3 Code](h
 | Version | Includes | Best for |
 | --- | --- | --- |
 | **Cyberpunk Capri Animated** | Dark colors and the animated character background | The full visual experience |
+| **Cyberpunk Capri Animated Light** | Light colors and a daylight version of the animated background | The full experience in light mode |
 | **Cyberpunk Capri** | Dark and light colors, no image | A simpler interface or light mode |
 
 ## Install
@@ -29,11 +30,12 @@ cd t3-theme-cyberpunk-capri
 ./install.sh
 ```
 
-Then open **Settings → Themes** and choose **Cyberpunk Capri Animated**. If it is not listed, reload or restart T3 Code.
+Then open **Settings → Themes** and choose **Cyberpunk Capri Animated**. For the light version, run `./install.sh --light` and choose **Cyberpunk Capri Animated Light**. If it is not listed, reload or restart T3 Code.
 
 Other options:
 
 ```bash
+./install.sh --light                                # Animated light theme
 ./install.sh --no-image                             # Colors only, dark and light
 ./install.sh --image ~/Pictures/my-background.webp  # Use your own background
 ./install.sh --force                                # Replace an existing install
@@ -42,8 +44,8 @@ T3_THEMES_DIR=/path/to/themes ./install.sh          # Use a custom themes folder
 
 ### Option 2: Manual install (including Windows)
 
-1. Download [`theme/cyberpunk-capri-animated.json`](theme/cyberpunk-capri-animated.json).
-2. Download `cyberpunk-capri-animated.webp` from [Releases](https://github.com/jianwei0510/t3-theme-cyberpunk-capri/releases/tag/assets-v1).
+1. Download [`theme/cyberpunk-capri-animated.json`](theme/cyberpunk-capri-animated.json), or [`theme/cyberpunk-capri-animated-light.json`](theme/cyberpunk-capri-animated-light.json) for light mode.
+2. Download the `.webp` file with the same name from [Releases](https://github.com/jianwei0510/t3-theme-cyberpunk-capri/releases/tag/assets-v1).
 3. Put both files in your T3 Code themes folder. Their names must match except for the extension.
 
    | System | Default path |
@@ -70,6 +72,7 @@ Switch to another theme in **Settings → Themes**, then delete the files:
 
 ```bash
 rm -f ~/.t3/userdata/themes/cyberpunk-capri-animated.{json,webp,png,jpg}
+rm -f ~/.t3/userdata/themes/cyberpunk-capri-animated-light.{json,webp,png,jpg}
 rm -f ~/.t3/userdata/themes/cyberpunk-capri.json
 ```
 
