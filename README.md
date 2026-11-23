@@ -62,7 +62,9 @@ T3_THEMES_DIR=/path/to/themes ./install.sh          # Use a custom themes folder
 
 ### Option 3: Colors only
 
-Copy the contents of [`theme/cyberpunk-capri.json`](theme/cyberpunk-capri.json), then paste them into **Settings → Themes → Import theme**.
+**From the T3 Code theme store (easiest).** Open **Settings → Themes**, search for `capri`, and install **Cyberpunk Capri** by `jianwei0510`. It is published on [Open VSX](https://open-vsx.org/extension/jianwei0510/cyberpunk-capri) and also works in VS Code-compatible editors. T3 Code derives some colors when importing from Open VSX, so this version is close to the full palette but not identical.
+
+**Full palette.** Copy the contents of [`theme/cyberpunk-capri.json`](theme/cyberpunk-capri.json), then paste them into **Settings → Themes → Import theme**.
 
 ## Update
 
@@ -101,4 +103,5 @@ This is an unofficial fan theme. It is not affiliated with or endorsed by CD PRO
 
 - Capri and all related characters, names, and images belong to their respective owners.
 - The background and banner contain material derived from the series. They are for personal, non-commercial use and are not covered by any open source license.
+- The colors-only Open VSX package in [`openvsx/`](openvsx/) contains no artwork and is available under the [MIT License](openvsx/LICENSE). That license covers only that folder.
 - Rights holders can open an issue to request removal, and the material will be taken down promptly.

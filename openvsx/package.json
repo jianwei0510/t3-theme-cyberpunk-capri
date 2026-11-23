@@ -1,0 +1,19 @@
+{
+  "name": "cyberpunk-capri",
+  "displayName": "Cyberpunk Capri",
+  "description": "A pink, crimson, and neon green color theme with dark and light variants. Unofficial fan theme, no artwork included.",
+  "version": "1.0.0",
+  "publisher": "jianwei0510",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/jianwei0510/t3-theme-cyberpunk-capri.git" },
+  "bugs": { "url": "https://github.com/jianwei0510/t3-theme-cyberpunk-capri/issues" },
+  "engines": { "vscode": "^1.70.0" },
+  "categories": ["Themes"],
+  "keywords": ["theme", "color-theme", "cyberpunk", "neon", "pink", "green", "dark", "light", "t3code"],
+  "contributes": {
+    "themes": [
+      { "label": "Cyberpunk Capri Dark", "uiTheme": "vs-dark", "path": "./themes/cyberpunk-capri-dark-color-theme.json" },
+      { "label": "Cyberpunk Capri Light", "uiTheme": "vs", "path": "./themes/cyberpunk-capri-light-color-theme.json" }
+    ]
+  }
+}
